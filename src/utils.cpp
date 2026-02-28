@@ -20,8 +20,8 @@ void SetColor(SDL_Renderer* renderer, SDL_Color c) {
     SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
 }
 
-PerVector2 GetSize(SDL_Texture *texture) {
-    PerVector2 size;
+Vector2<int> GetSize(SDL_Texture *texture) {
+    Vector2<int> size;
     SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
     return size;
 }

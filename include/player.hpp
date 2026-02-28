@@ -6,10 +6,10 @@
 
 class Player {
 private:
-    PerVector2 position;
-    PerFloatVector2 velocity;
+    Vector2<int> position;
+    Vector2<float> velocity;
     SDL_Texture *texture;
-    PerVector2 size;
+    Vector2<int> size;
     SDL_Rect dst;
     int speed = 100;
 

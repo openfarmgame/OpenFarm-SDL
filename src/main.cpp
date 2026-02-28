@@ -12,7 +12,7 @@
 constexpr int  SCREEN_WIDTH      = 960;
 constexpr int  SCREEN_HEIGHT     = 640;
 constexpr int  TILE_SIZE         = 32;
-constexpr std::string_view TITLE = "Perfectory alpha 1.0";
+constexpr std::string_view TITLE = "OpenFarm alpha 1.0";
 
 constexpr int MAP_WIDTH  = (SCREEN_WIDTH / TILE_SIZE);
 constexpr int MAP_HEIGHT = (SCREEN_HEIGHT / TILE_SIZE);
@@ -159,7 +159,7 @@ int main() {
         
         player.Draw(RES.renderer);
 
-        RenderText(RES.renderer, font_image, "Perfectory alpha 1.0", 5, 0, 1, 1, 1, {0,0,0});
+        RenderText(RES.renderer, font_image, "OpenFarm alpha 1.0", 5, 0, 1, 1, 1, {0,0,0});
 
         SDL_RenderPresent(RES.renderer);
 

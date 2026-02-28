@@ -1,2 +1,2 @@
 cmake -S . -B build
-cmake --build build && ./build/Perfectory
+cmake --build build && ./build/OpenFarm
