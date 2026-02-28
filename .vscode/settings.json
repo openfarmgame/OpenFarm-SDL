@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "memo2": "c"
+    },
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.codeAnalysis.clangTidy.path": "/usr/bin/clang-tidy",
+    "C_Cpp.codeAnalysis.clangTidy.args": [
+        "--config-file=.clang-tidy"
+    ],
+    "C_Cpp.errorSquiggles": "enabled"
+}

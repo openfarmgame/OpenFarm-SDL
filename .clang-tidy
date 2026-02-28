@@ -1,0 +1,40 @@
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  readability-*,
+  modernize-*,
+  cppcoreguidelines-*,
+  performance-*,
+  misc-*,
+  -misc-include-cleaner,
+  -modernize-use-trailing-return-type,
+  -readability-identifier-length
+
+HeaderFilterRegex: 'src/.*'
+
+CheckOptions:
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.FunctionCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.IgnoreMainLikeFunctions
+    value: 1
+  - key: readability-identifier-naming.IgnoreMacros
+    value: 1
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: 1
+  - key: llvm-include-order.IncludeCategories
+    value: '[".*"]'
+  - key: modernize-use-trailing-return-type.IgnoreTrailingReturnType
+    value: 1
+  - key: llvm-include-order.UseTab
+    value: Never
+  - key: IndentWidth
+    value: 4
+  - key: DerivePointerAlignment
+    value: false
+  - key: cppcoreguidelines-pro-type-member-init.IgnoreCStyleInit
+    value: true
+
