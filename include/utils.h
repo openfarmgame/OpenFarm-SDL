@@ -100,4 +100,8 @@ void RenderText(SDL_Renderer *renderer, SDL_Texture *fontTexture,
                  const char *text, int x, int y, int size, 
                  int space_x, int space_y, SDL_Color color);
 
+enum Action {
+    Farming
+};
+
 #endif

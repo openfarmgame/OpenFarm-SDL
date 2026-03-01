@@ -2,12 +2,15 @@
 #include <array>
 #include <iostream>
 #include <cstdlib>
+#include <algorithm>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "utils.h"
 #include "player.hpp"
+#include "tilemap.h"
+
 
 SDL_Color sky = {113, 199, 245, 255}; // NOLINT
 
@@ -48,22 +51,6 @@ namespace {
 
         return res;
     }
-
-    int GetTile(MapData<MAP_WIDTH, MAP_HEIGHT>& map, int x, int y) {
-        if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
-            return map[x][y]; // NOLINT
-        }
-            
-        return 0;
-    }
-
-    int SetTile(MapData<MAP_WIDTH, MAP_HEIGHT>& map, int x, int y, int value) {
-        if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
-            return map[x][y] = value; // NOLINT
-        }
-            
-        return 0;
-    }
 }
 
 int main() {
@@ -71,11 +58,9 @@ int main() {
     SDL_Rect dst;
 
     // Map Init
-    MapData<MAP_WIDTH, MAP_HEIGHT> ground_map;
+    TileMap ground_map(MAP_WIDTH, MAP_HEIGHT);
 
-    for (auto& row : ground_map) {
-        row.fill(1); // fill 1 all tiles
-    }
+    std::fill(ground_map.begin(), ground_map.end(), 1);
     
     // Init
     const SDL_Resources RES = Init();
@@ -145,7 +130,7 @@ int main() {
                 dst.w = TILE_SIZE;
                 dst.h = TILE_SIZE;
                 
-                switch (GetTile(ground_map, x, y)) {
+                switch (ground_map.GetTile(x, y)) {
                     case 0: 
                         break;
                     case 1:
@@ -182,7 +167,7 @@ int main() {
             bool isInside3x3 = (diffX <= 1 && diffY <= 1);
 
             if (isInside3x3) {
-                SetTile(ground_map, mouseTile.x, mouseTile.y, 2);
+                ground_map.SetTile(mouseTile.x, mouseTile.y, 2);
             }
         }
 

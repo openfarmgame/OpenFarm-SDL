@@ -12,6 +12,8 @@ private:
     Vector2<int> size;
     SDL_Rect dst;
     int speed = 150;
+    Action action;
+    int lasttime;
 
     bool keysDown[4] = {false, false, false, false};
 
