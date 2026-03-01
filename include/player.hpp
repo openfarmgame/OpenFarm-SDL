@@ -51,13 +51,24 @@ public:
 
         velocity.x = 0;
         velocity.y = 0;
-        if (state[SDL_SCANCODE_LEFT])  velocity.x -= 1;
-        if (state[SDL_SCANCODE_RIGHT]) velocity.x += 1;
-        if (state[SDL_SCANCODE_UP])    velocity.y -= 1;
-        if (state[SDL_SCANCODE_DOWN])  velocity.y += 1;
+        if (state[SDL_SCANCODE_A])  velocity.x -= 1;
+        if (state[SDL_SCANCODE_D]) velocity.x += 1;
+        if (state[SDL_SCANCODE_W])    velocity.y -= 1;
+        if (state[SDL_SCANCODE_S])  velocity.y += 1;
 
         position.x += velocity.x * speed * deltaTime;
         position.y += velocity.y * speed * deltaTime;
+    }
+
+    Vector2<int> GetTilePos() {
+        return {
+            static_cast<int>((position.x + (size.x / 2.0f)) / TILE_SIZE),
+            static_cast<int>((position.y + (size.y / 2.0f)) / TILE_SIZE)
+        };
+    }
+
+    Vector2<int> GetPos() {
+        return position;
     }
 };
 

@@ -3,6 +3,20 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <cmath>
+
+constexpr int FONT_WIDTH = 8;
+constexpr int FONT_HEIGHT = 16;
+constexpr int FONTMAP_SIZE = 160;
+constexpr int GRID_COLUMNS = 10; // 한 줄 글자 수
+
+constexpr int  SCREEN_WIDTH      = 960;
+constexpr int  SCREEN_HEIGHT     = 640;
+constexpr int  TILE_SIZE         = 32;
+constexpr std::string_view TITLE = "OpenFarm alpha 1.0";
+
+constexpr int MAP_WIDTH  = (SCREEN_WIDTH / TILE_SIZE);
+constexpr int MAP_HEIGHT = (SCREEN_HEIGHT / TILE_SIZE);
 
 struct SDL_Resources {
     SDL_Window* window;
@@ -57,6 +71,26 @@ struct Vector2 {
         x += r.x; y += r.y;
         return *this;
     }
+
+    double length() const {
+        return std::sqrt(static_cast<double>(x * x + y * y));
+    }
+
+    void normalize() {
+        double len = length();
+        if (len > 0) { // 0으로 나누기 방지
+            x = static_cast<T>(x / len);
+            y = static_cast<T>(y / len);
+        }
+    }
+
+    Vector2<float> get_normalized() const {
+        float len = std::sqrt(static_cast<float>(x * x + y * y));
+        if (len > 0.0f) {
+            return { static_cast<float>(x) / len, static_cast<float>(y) / len };
+        }
+        return { 0.0f, 0.0f };
+    }
 };
 
 SDL_Texture* LoadImage(SDL_Renderer *renderer, const char *path);
@@ -65,11 +99,5 @@ Vector2<int> GetSize(SDL_Texture *texture);
 void RenderText(SDL_Renderer *renderer, SDL_Texture *fontTexture, 
                  const char *text, int x, int y, int size, 
                  int space_x, int space_y, SDL_Color color);
-
-
-constexpr int KEY_RIGHT = 1073741903;
-constexpr int KEY_LEFT = 1073741904;
-constexpr int KEY_DOWN = 1073741905;
-constexpr int KEY_UP = 1073741906;
 
 #endif

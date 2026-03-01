@@ -9,14 +9,6 @@
 #include "utils.h"
 #include "player.hpp"
 
-constexpr int  SCREEN_WIDTH      = 960;
-constexpr int  SCREEN_HEIGHT     = 640;
-constexpr int  TILE_SIZE         = 32;
-constexpr std::string_view TITLE = "OpenFarm alpha 1.0";
-
-constexpr int MAP_WIDTH  = (SCREEN_WIDTH / TILE_SIZE);
-constexpr int MAP_HEIGHT = (SCREEN_HEIGHT / TILE_SIZE);
-
 SDL_Color sky = {113, 199, 245, 255}; // NOLINT
 
 namespace {
@@ -64,6 +56,14 @@ namespace {
             
         return 0;
     }
+
+    int SetTile(MapData<MAP_WIDTH, MAP_HEIGHT>& map, int x, int y, int value) {
+        if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
+            return map[x][y] = value; // NOLINT
+        }
+            
+        return 0;
+    }
 }
 
 int main() {
@@ -96,7 +96,7 @@ int main() {
 
     // Player
     constexpr int PLAYER_SIZE = 32;
-    constexpr int PLAYER_POS = 10;
+    constexpr int PLAYER_POS = 0;
     Player player(PLAYER_POS, PLAYER_POS, player_image, PLAYER_SIZE, PLAYER_SIZE);
 
     // Clock
@@ -158,6 +158,30 @@ int main() {
         }
         
         player.Draw(RES.renderer);
+
+
+        int x, y;
+        Uint32 buttons = SDL_GetMouseState(&x, &y);
+
+        if (buttons & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+            Vector2<int> mouse_tilepos = {
+                x / TILE_SIZE,
+                y / TILE_SIZE
+            };
+
+            Vector2<int> playerTile = player.GetTilePos();
+            Vector2<int> mouseTile = { x / TILE_SIZE, y / TILE_SIZE };
+
+            int diffX = abs(mouseTile.x - playerTile.x);
+            int diffY = abs(mouseTile.y - playerTile.y);
+
+            bool isInside3x3 = (diffX <= 1 && diffY <= 1);
+
+            if (isInside3x3) {
+                SetTile(ground_map, mouseTile.x, mouseTile.y, 0);
+            }
+        }
+
 
         RenderText(RES.renderer, font_image, "OpenFarm alpha 1.0", 5, 0, 1, 1, 1, {0,0,0});
 

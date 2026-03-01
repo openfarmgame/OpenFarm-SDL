@@ -26,12 +26,6 @@ Vector2<int> GetSize(SDL_Texture *texture) {
     return size;
 }
 
-constexpr int FONT_WIDTH = 8;
-constexpr int FONT_HEIGHT = 16;
-constexpr int FONTMAP_SIZE = 160;
-constexpr int GRID_COLUMNS = 10; // 한 줄 글자 수
-
-
 std::array<int, 2> IndexToXY(int index) {
     int x = (index - 32) % GRID_COLUMNS;
     int y = (index - 32) / GRID_COLUMNS;
