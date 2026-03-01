@@ -12,7 +12,7 @@ constexpr int GRID_COLUMNS = 10; // 한 줄 글자 수
 
 constexpr int  SCREEN_WIDTH      = 960;
 constexpr int  SCREEN_HEIGHT     = 640;
-constexpr int  TILE_SIZE         = 32;
+constexpr int  TILE_SIZE         = 64;
 constexpr std::string_view TITLE = "OpenFarm alpha 1.0";
 
 constexpr int MAP_WIDTH  = (SCREEN_WIDTH / TILE_SIZE);

@@ -90,12 +90,13 @@ int main() {
 
     // Load image
     SDL_Texture *grass_image = LoadImage(RES.renderer, "assets/grass.png");
+    SDL_Texture *farm_image = LoadImage(RES.renderer, "assets/farm.png");
     SDL_Texture *bnf_image = LoadImage(RES.renderer, "assets/bnf.png");
     SDL_Texture *player_image = LoadImage(RES.renderer, "assets/player.png");
     SDL_Texture *font_image = LoadImage(RES.renderer, "assets/font.png");
 
     // Player
-    constexpr int PLAYER_SIZE = 32;
+    constexpr int PLAYER_SIZE = 64;
     constexpr int PLAYER_POS = 0;
     Player player(PLAYER_POS, PLAYER_POS, player_image, PLAYER_SIZE, PLAYER_SIZE);
 
@@ -150,6 +151,9 @@ int main() {
                     case 1:
                         SDL_RenderCopy(RES.renderer, grass_image, nullptr, &dst);
                         break;
+                    case 2:
+                        SDL_RenderCopy(RES.renderer, farm_image, nullptr, &dst);
+                        break;
                     default:
                         SDL_RenderCopy(RES.renderer, bnf_image, nullptr, &dst);
                         break;
@@ -178,7 +182,7 @@ int main() {
             bool isInside3x3 = (diffX <= 1 && diffY <= 1);
 
             if (isInside3x3) {
-                SetTile(ground_map, mouseTile.x, mouseTile.y, 0);
+                SetTile(ground_map, mouseTile.x, mouseTile.y, 2);
             }
         }
 

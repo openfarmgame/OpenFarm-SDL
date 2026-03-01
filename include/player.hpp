@@ -11,7 +11,7 @@ private:
     SDL_Texture *texture;
     Vector2<int> size;
     SDL_Rect dst;
-    int speed = 100;
+    int speed = 150;
 
     bool keysDown[4] = {false, false, false, false};
 
