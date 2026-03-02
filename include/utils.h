@@ -101,7 +101,8 @@ void RenderText(SDL_Renderer *renderer, SDL_Texture *fontTexture,
                  int space_x, int space_y, SDL_Color color);
 
 enum Action {
-    Farming
+    FARMING,
+    REST
 };
 
 #endif

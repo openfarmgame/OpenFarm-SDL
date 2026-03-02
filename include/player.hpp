@@ -3,6 +3,11 @@
 
 #include "utils.h"
 #include <iostream>
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+using namespace std::chrono_literals;
 
 class Player {
 private:
@@ -11,9 +16,9 @@ private:
     SDL_Texture *texture;
     Vector2<int> size;
     SDL_Rect dst;
-    int speed = 150;
-    Action action;
-    int lasttime;
+    const int speed = 150;
+    Action action = REST;
+    steady_clock::time_point lasttime;
 
     bool keysDown[4] = {false, false, false, false};
 
@@ -49,6 +54,7 @@ public:
     }
 
     void Update(float deltaTime) {
+        // Walk
         const Uint8 *state = SDL_GetKeyboardState(NULL);
 
         velocity.x = 0;
@@ -60,6 +66,26 @@ public:
 
         position.x += velocity.x * speed * deltaTime;
         position.y += velocity.y * speed * deltaTime;
+
+        // Action
+        switch (action)
+        {
+        case FARMING:
+        {
+            auto now = steady_clock::now();
+
+            // 5초 지났는지 확인
+            if (now - lasttime >= 1000ms)
+            {
+                action = REST;
+                lasttime = now;
+            }
+            break;
+        }
+
+        default:
+            break;
+        }
     }
 
     Vector2<int> GetTilePos() {
@@ -71,6 +97,14 @@ public:
 
     Vector2<int> GetPos() {
         return position;
+    }
+
+    bool CanAction() const {
+        return action == REST;
+    }
+
+    void Farming() {
+        action = FARMING;
     }
 };
 

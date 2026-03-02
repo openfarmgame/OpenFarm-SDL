@@ -43,9 +43,15 @@ namespace {
             return res;
         }
 
-        res.renderer = SDL_CreateRenderer(res.window, -1, SDL_RENDERER_ACCELERATED);
+        res.renderer = SDL_CreateRenderer(
+            res.window,
+            -1,
+            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+        );
+
         if (res.renderer == nullptr) {
-            std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << "\n";
+            std::cerr << "SDL_CreateRenderer Error: "
+                    << SDL_GetError() << "\n";
             return res;
         }
 
@@ -86,23 +92,16 @@ int main() {
     Player player(PLAYER_POS, PLAYER_POS, player_image, PLAYER_SIZE, PLAYER_SIZE);
 
     // Clock
-    const int FPS = 100;
-    const int frameDelay = 1000 / FPS;
-    Uint32 frameStart;
-
     Uint32 lastTime = SDL_GetTicks();
-    Uint32 currentTime = 0;
     float deltaTime = 0;
 
 
     SDL_Event event;
     while (running)
     {
-        frameStart = SDL_GetTicks();
-
-        lastTime = currentTime;
-        currentTime = SDL_GetTicks();
+        Uint32 currentTime = SDL_GetTicks();
         deltaTime = (currentTime - lastTime) / 1000.0f;
+        lastTime = currentTime;
 
         // Update
         player.Update(deltaTime);
@@ -152,7 +151,7 @@ int main() {
         int x, y;
         Uint32 buttons = SDL_GetMouseState(&x, &y);
 
-        if (buttons & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+        if (buttons & SDL_BUTTON(SDL_BUTTON_LEFT) && player.CanAction()) {
             Vector2<int> mouse_tilepos = {
                 x / TILE_SIZE,
                 y / TILE_SIZE
@@ -168,6 +167,7 @@ int main() {
 
             if (isInside3x3) {
                 ground_map.SetTile(mouseTile.x, mouseTile.y, 2);
+                player.Farming();
             }
         }
 
@@ -175,11 +175,6 @@ int main() {
         RenderText(RES.renderer, font_image, "OpenFarm alpha 1.0", 5, 0, 1, 1, 1, {0,0,0});
 
         SDL_RenderPresent(RES.renderer);
-
-        Uint32 frameTime = SDL_GetTicks() - frameStart;
-        if(frameDelay > frameTime) {
-            SDL_Delay(frameDelay - frameTime);
-        }
     }
 
     SDL_DestroyRenderer(RES.renderer);
