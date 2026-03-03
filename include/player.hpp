@@ -11,7 +11,7 @@ using namespace std::chrono_literals;
 
 class Player {
 private:
-    Vector2<int> position;
+    Vector2<float> position;
     Vector2<float> velocity;
     SDL_Texture *texture;
     Vector2<int> size;
@@ -64,6 +64,8 @@ public:
         if (state[SDL_SCANCODE_W])    velocity.y -= 1;
         if (state[SDL_SCANCODE_S])  velocity.y += 1;
 
+        velocity.normalize();
+        
         position.x += velocity.x * speed * deltaTime;
         position.y += velocity.y * speed * deltaTime;
 
@@ -95,7 +97,7 @@ public:
         };
     }
 
-    Vector2<int> GetPos() {
+    Vector2<float> GetPos() {
         return position;
     }
 
